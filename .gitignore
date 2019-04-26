@@ -1,0 +1,13 @@
+.DS_Store
+*.bak
+*.~
+*.fasl
+*.dx32fsl
+*.dx64fsl
+*.lx32fsl
+*.lx64fsl
+*.x86f
+*~
+.#*
+*.asd~
+*.ros~
