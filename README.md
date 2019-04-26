@@ -12,6 +12,8 @@ $ ros install t-cool/lemmatizer
 
 ## Usage
 
+(Not yet implemented)
+
 ```  
 $ lemma books
 book
