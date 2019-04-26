@@ -1,4 +1,4 @@
-# lemmatizer
+# cl-lemma
 
 Lemmatizer for text in English.  
 
