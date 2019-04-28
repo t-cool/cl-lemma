@@ -1,8 +1,6 @@
 # cl-lemma
 
-Lemmatizer for text in English.  
-
-This project is ported from [yohasebe/lemmatizer](https://github.com/yohasebe/lemmatizer).
+Englsh lemmatizer in Common Lisp
 
 ## Installation
 
@@ -23,6 +21,7 @@ book
 
 t-cool
 
+Note: This project is ported from [yohasebe/lemmatizer](https://github.com/yohasebe/lemmatizer).
 
 ## License
 
