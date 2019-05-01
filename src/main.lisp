@@ -28,7 +28,7 @@
 (defmacro find-exc-of-pos (word pos)
   `(loop
       for pair in ,(intern (concatenate 'string "*exc-" pos "*"))
-      if (equal ,word (car pair))
+      if (string-equal ,word (car pair))
       return (cadr pair)))
 
 ; (macroexpand-1 '(find-exc-of-pos "better" "adj"))
@@ -40,7 +40,7 @@
 (defmacro find-index-of-pos (word pos)
   `(loop
       for pair in ,(intern (concatenate 'string "*index-" pos "*"))
-      if (equal ,word (car pair))
+      if (string-equal ,word (car pair))
       return t))
 
 ; (find-index-of-pos "above" "adv")
