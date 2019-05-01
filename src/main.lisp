@@ -38,3 +38,18 @@
 
 (defun lemma(word pos)
   (print "not yet"))
+
+
+;; (loop for i in (cadr (assoc 'noun cl-lemma:*rules*)) do (print i))
+;; ("s" . "") 
+;; ("ses" . "s") 
+;; ("ves" . "f") 
+;; ("xes" . "x") 
+;; ("zes" . "z") 
+;; ("ches" . "ch") 
+;; ("shes" . "sh") 
+;; ("men" . "man") 
+;; ("ies" . "y")
+
+;; cl-lemma::*exc-adv*
+;; (("best" "well") ("better" "well") ("deeper" "deeply") ("farther" "far") ("further" "far") ("harder" "hard") ("hardest" "hard"))
