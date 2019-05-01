@@ -1,5 +1,7 @@
 (defpackage cl-lemma
   (:use :cl)
+  (:import-from :cl-ppcre
+		:scan)
   (:export :lemma
 	   :load-dic
 	   :*rules*))
@@ -36,9 +38,8 @@
   (adv
    (("er" . "")("est" . "")("er" . "e")("est" . "e")))))
 
-(defun lemma(word pos)
-  (print "not yet"))
-
+(defun lemma()
+  (ppcre:scan "ses" "buses"))
 
 ;; (loop for i in (cadr (assoc 'noun cl-lemma:*rules*)) do (print i))
 ;; ("s" . "") 
@@ -53,3 +54,7 @@
 
 ;; cl-lemma::*exc-adv*
 ;; (("best" "well") ("better" "well") ("deeper" "deeply") ("farther" "far") ("further" "far") ("harder" "hard") ("hardest" "hard"))
+
+;; (ppcre:scan "s" "looks")
+;; 4
+;; 5
