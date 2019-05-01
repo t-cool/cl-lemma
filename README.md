@@ -10,11 +10,13 @@ $ ros install t-cool/lemmatizer
 
 ## Usage
 
-(Not yet implemented)
-
 ```  
-$ lemma books
-book
+$ ros run
+* (ql:quickload :cl-lemma)
+* (cl-lemma:lemma "went")
+"go"
+* (cl-lemma:lemma "gone")
+"go"
 ```
 
 ## Author
