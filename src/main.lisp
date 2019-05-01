@@ -61,10 +61,6 @@
 
 (defun lemma-verb(word)
     (if (find-word word)
-	(cond
-	  ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  "e"))
-	  ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  "e"))
-	  ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  "e")))
 	(cond 
 	  ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
 	  ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  ""))
@@ -74,18 +70,12 @@
 
 (defun lemma-adj(word)
     (if (find-word word)
-	(cond
-	  ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  "e"))
-	  ((ppcre:scan "est$" word)(ppcre:regex-replace "ed$" word  "e"))) 
 	(cond 
 	  ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  ""))
 	  ((ppcre:scan "est$" word)(ppcre:regex-replace "ed$" word  "")))))
 
 (defun lemma-adv(word)
     (if (find-word word)
-	(cond
-	  ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  "e"))
-	  ((ppcre:scan "est$" word)(ppcre:regex-replace "ed$" word  "e"))) 
 	(cond 
 	  ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  ""))
 	  ((ppcre:scan "est$" word)(ppcre:regex-replace "ed$" word  "")))))
@@ -95,15 +85,15 @@
 (defun lemma(word)
   (cond
     ((find-exc-of-pos word "adv") (find-exc-of-pos word "adv"))
-    ((find-exc-of-pos word "adj") (find-exc-of-pos word "adj"))
     ((find-exc-of-pos word "noun") (find-exc-of-pos word "noun"))
     ((find-exc-of-pos word "verb") (find-exc-of-pos word "verb"))
+    ((find-exc-of-pos word "adj") (find-exc-of-pos word "adj"))
     (t
      (cond
-       ((find-index-of-pos word "adv")(lemma-adv word))
        ((find-index-of-pos word "noun")(lemma-noun word))
        ((find-index-of-pos word "verb")(lemma-verb word))
-       (t word)))))
+       ((find-index-of-pos word "adv")(lemma-adj word))
+       (t (lemma-noun word))))))
 
 ; (lemma "went")
 ; (lemma "gone")
