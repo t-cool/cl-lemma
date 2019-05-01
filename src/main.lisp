@@ -29,7 +29,7 @@
   `(loop
       for pair in ,(intern (concatenate 'string "*exc-" pos "*"))
       if (equal ,word (car pair))
-      return t))
+      return (cadr pair)))
 
 ; (macroexpand-1 '(find-exc-of-pos "better" "adj"))
 ; (find-exc-of-pos "better" "adv")
@@ -93,25 +93,21 @@
 ; (lemma-noun "buses")
 
 (defun lemma(word)
-  (cond((ppcre:scan "ses" word) )
+  (cond
+    ((find-exc-of-pos word "adv") (find-exc-of-pos word "adv"))
+    ((find-exc-of-pos word "adj") (find-exc-of-pos word "adj"))
+    ((find-exc-of-pos word "noun") (find-exc-of-pos word "noun"))
+    ((find-exc-of-pos word "verb") (find-exc-of-pos word "verb"))
+    (t
+     (cond
+       ((find-index-of-pos word "adv")(lemma-adv word))
+       ((find-index-of-pos word "noun")(lemma-noun word))
+       ((find-index-of-pos word "verb")(lemma-verb word))
+       (t word)))))
 
-;; (loop for i in (cadr (assoc 'noun cl-lemma:*rules*)) do (print i))
-;; ("s" . "") 
-;; ("ses" . "s") 
-;; ("ves" . "f") 
-;; ("xes" . "x") 
-;; ("zes" . "z") 
-;; ("ches" . "ch") 
-;; ("shes" . "sh") 
-;; ("men" . "man") 
-;; ("ies" . "y")
-
-;; cl-lemma::*exc-adv*
-;; (("best" "well") ("better" "well") ("deeper" "deeply") ("farther" "far") ("further" "far") ("harder" "hard") ("hardest" "hard"))
-
-;; (ppcre:scan "s" "looks")
-;; 4
-;; 5
+; (lemma "went")
+; (lemma "gone")
+; (lemma "best")
 
 #|
 辞書の作成
