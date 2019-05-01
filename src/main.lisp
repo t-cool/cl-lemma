@@ -5,21 +5,22 @@
 	   :*rules*))
 (in-package :cl-lemma)
 
-(defmacro load-dic(path)
-  `(loop
-      for line in (uiop:read-file-lines
-		   (merge-pathnames ,path
+(defmacro load-dic(name path)
+  `(defvar ,name 
+     (loop
+	for line in (uiop:read-file-lines
+		     (merge-pathnames ,path
 			            (asdf:system-source-directory "cl-lemma")))
-      unless (eql (aref line 0) #\#)
-      collect (uiop:split-string line :separator '(#\Tab))))
+	unless (eql (aref line 0) #\#)
+	collect (uiop:split-string line :separator '(#\Tab)))))
 
-(load-dic "dict/exc_adj.tsv")
-(load-dic "dict/exc_adv.tsv")
-(load-dic "dict/exc_noun.tsv")
-(load-dic "dict/exc_verb.tsv")
-(load-dic "dict/index_adv.tsv")
-(load-dic "dict/index_noun.tsv")
-(load-dic "dict/index_verb.tsv")
+(load-dic *exc-adj* "dict/exc_adj.tsv")
+(load-dic *exc-adv* "dict/exc_adv.tsv")
+(load-dic *exc-noun* "dict/exc_noun.tsv")
+(load-dic *exc-verb* "dict/exc_verb.tsv")
+(load-dic *index-adv* "dict/index_adv.tsv")
+(load-dic *index-noun* "dict/index_noun.tsv")
+(load-dic *index-verb* "dict/index_verb.tsv")
 
 (defvar *rules*
 '((noun
