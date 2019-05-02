@@ -10,7 +10,7 @@ $ ros install t-cool/cl-lemma
 
 ## Usage
 
-You can lemmalize the word by `(cl-lemma:lemma "word")`.
+You can lemmalize a word by `(cl-lemma:lemma "word")`.
 
 ```  
 * (ql:quickload :cl-lemma)
