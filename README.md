@@ -15,8 +15,10 @@ $ ros run
 * (ql:quickload :cl-lemma)
 * (cl-lemma:lemma "went")
 "go"
-* (cl-lemma:lemma "gone")
-"go"
+* (cl-lemma:lemma "leaves" :noun)
+"leaf"
+* (cl-lemma:lemma "leaves" :verb)
+"leave"
 ```
 
 ## Author
