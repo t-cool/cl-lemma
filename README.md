@@ -25,7 +25,7 @@ $ ros run
 
 t-cool
 
-Note: This project is ported from [yohasebe/lemmatizer](https://github.com/yohasebe/lemmatizer).
+This project is ported from [yohasebe/lemmatizer](https://github.com/yohasebe/lemmatizer).
 
 ## License
 
