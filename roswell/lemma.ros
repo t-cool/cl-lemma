@@ -12,8 +12,9 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lemma.3765060580)
 
-(defun main (word pos &rest argv)
+(defun main (word &optional (pos nil) &rest argv)
   (declare (ignorable argv))
-  (format t "~A~%" (cl-lemma:lemma word pos)))
+  (let ((pos pos))
+    (format t "~A~%" (cl-lemma:lemma word pos))))
 
 ;;; vim: set ft=lisp lisp:
