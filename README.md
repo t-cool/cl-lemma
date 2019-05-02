@@ -5,7 +5,7 @@ Englsh lemmatizer in Common Lisp
 ## Installation
 
 ```
-$ ros install t-cool/lemmatizer
+$ ros install t-cool/cl-lemma
 ```
 
 ## Usage
