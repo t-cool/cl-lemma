@@ -32,35 +32,13 @@
       if (string-equal ,word (car pair))
       return (cadr pair)))
 
-; (macroexpand-1 '(find-exc-of-pos "better" "adj"))
-; (find-exc-of-pos "better" "adv")
-; (find-exc-of-pos "barmiest" "adj")
-; (find-exc-of-pos "abaci" "noun")
-; (find-exc-of-pos "alkalified" "verb")
-
 (defmacro find-index-of-pos (word pos)
   `(loop
       for pair in ,(intern (concatenate 'string "*index-" pos "*"))
       if (string-equal ,word (car pair))
       return t))
 
-; (find-index-of-pos "above" "adv")
-; (find-index-of-pos "abashment" "noun")
-; (find-index-of-pos "ablate" "verb")
-
 (defun lemma-noun(word)
-    (cond
-      ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
-      ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
-      ((ppcre:scan "xes$" word)(ppcre:regex-replace "xes$" word  "x"))
-      ((ppcre:scan "zes$" word)(ppcre:regex-replace "zes$" word  "z"))
-      ((ppcre:scan "ches$" word)(ppcre:regex-replace "ches$" word  "ch"))
-      ((ppcre:scan "shes$" word)(ppcre:regex-replace "shes$" word  "sh"))
-      ((ppcre:scan "men$" word)(ppcre:regex-replace "men$" word  "man"))
-      ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
-      ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
-
-(defun lemma-noun-special(word)
     (cond
       ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
       ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
@@ -108,8 +86,6 @@
     ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  "e"))
     ((ppcre:scan "est$" word)(ppcre:regex-replace "est$" word  "e"))))
 
-; (lemma-noun "buses")
-
 (defun lemma(word &optional (pos nil))
   ;; if the pos is not specified, it is determined in order
   (if(null pos)
@@ -125,9 +101,7 @@
      (cond((string-equal pos "noun")
 	     (if (find-exc-of-pos word "noun")
 		 (find-exc-of-pos word "noun")
-		 (if (find-index-of-pos word "noun")
-		     (lemma-noun-special word)
-		     (lemma-noun word))))
+		 (lemma-noun word)))
 	  ((string-equal pos "verb")
 	     (if (find-exc-of-pos word "verb")
 		 (find-exc-of-pos word "verb")
