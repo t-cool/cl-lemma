@@ -17,6 +17,10 @@ $ lemma leaves verb
 leave
 $ lemma leaves noun
 leaf
+$ lemma best adj
+good
+$ lemma best adv
+well
 ```
 
 ### REPL
