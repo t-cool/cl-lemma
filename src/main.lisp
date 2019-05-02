@@ -3,9 +3,7 @@
   (:import-from :cl-ppcre
 		:scan
 		:regex-replace)
-  (:export :lemma
-	   :load-dic
-	   :*rules*))
+  (:export :lemma))
 (in-package :cl-lemma)
 
 (defmacro load-dic(name path)
