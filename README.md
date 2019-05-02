@@ -10,6 +10,8 @@ $ ros install t-cool/lemmatizer
 
 ## Usage
 
+### REPL
+
 ```  
 $ ros run
 * (ql:quickload :cl-lemma)
@@ -19,6 +21,14 @@ $ ros run
 "leaf"
 * (cl-lemma:lemma "leaves" :verb)
 "leave"
+```
+### Roswell Script
+
+```
+$ lemma leaves verb
+leave
+$ lemma leaves noun
+leaf
 ```
 
 ## Author
