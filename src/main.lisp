@@ -147,8 +147,3 @@
 		     (lemma-adj-special word)
 		     (lemma-adj word))))
 	  (t (lemma-noun word)))))
-	   
-
-; (lemma "went")
-; (lemma "gone")
-; (lemma "best")
