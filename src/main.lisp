@@ -19,6 +19,7 @@
 (load-dic |*exc-adv*| "dict/exc_adv.tsv")
 (load-dic |*exc-noun*| "dict/exc_noun.tsv")
 (load-dic |*exc-verb*| "dict/exc_verb.tsv")
+
 (load-dic |*index-adj*| "dict/index_adj.tsv")
 (load-dic |*index-adv*| "dict/index_adv.tsv")
 (load-dic |*index-noun*| "dict/index_noun.tsv")
@@ -35,6 +36,21 @@
       for pair in ,(intern (concatenate 'string "*index-" pos "*"))
       if (string-equal ,word (car pair))
       return t))
+
+(defun lemma-general(word)
+  (cond 
+    ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
+    ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
+    ((ppcre:scan "xes$" word)(ppcre:regex-replace "xes$" word  "x"))
+    ((ppcre:scan "zes$" word)(ppcre:regex-replace "zes$" word  "z"))
+    ((ppcre:scan "ches$" word)(ppcre:regex-replace "ches$" word  "ch"))
+    ((ppcre:scan "shes$" word)(ppcre:regex-replace "shes$" word  "sh"))
+    ((ppcre:scan "men$" word)(ppcre:regex-replace "men$" word  "man"))
+    ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
+    ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  "e"))
+    ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  ""))
+    ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  ""))
+    ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
 
 (defun lemma-noun(word)
     (cond
@@ -91,10 +107,7 @@
 	  ((find-exc-of-pos word "noun") (find-exc-of-pos word "noun"))
 	  ((find-exc-of-pos word "verb") (find-exc-of-pos word "verb"))
 	  ((find-exc-of-pos word "adj") (find-exc-of-pos word "adj"))
-	  (t (cond((find-index-of-pos word "noun")(lemma-noun word))
-		  ((find-index-of-pos word "verb")(lemma-verb word))
-		  ((find-index-of-pos word "adv")(lemma-adj word))
-		  (t (lemma-noun word)))))
+	  (t (lemma-general word)))
      ;; if the pos is specified
      (cond((string-equal pos "noun")
 	     (if (find-exc-of-pos word "noun")
@@ -118,4 +131,12 @@
 		 (if (find-index-of-pos word "adj")
 		     (lemma-adj-special word)
 		     (lemma-adj word))))
-	  (t (lemma-noun word)))))
+	  (t (lemma-general word)))))
+
+
+;; (uiop:split-string "blew_one's_nose" :separator "_")
+;; ("blew" "one's" "nose")
+;; (uiop:split-string "blow_one's_nose" :separator "_")
+;; ("blow" "one's" "nose")
+
+

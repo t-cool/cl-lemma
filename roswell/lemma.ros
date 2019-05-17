@@ -14,7 +14,6 @@ exec ros -Q -- $0 "$@"
 
 (defun main (word &optional (pos nil) &rest argv)
   (declare (ignorable argv))
-  (let ((pos pos))
-    (format t "~A~%" (cl-lemma:lemma word pos))))
+  (format t "~A~%" (cl-lemma:lemma word pos)))
 
 ;;; vim: set ft=lisp lisp:
