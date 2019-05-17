@@ -53,7 +53,7 @@
     ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
     ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  "e"))
     ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  "e"))
-    ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  "e"))
+    ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  ""))
     ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
 
 (defun lemma-verb-special(word)
