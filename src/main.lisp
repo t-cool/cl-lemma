@@ -67,18 +67,22 @@
 (defun lemma-verb(word)
   (cond 
     ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
-    ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  "e"))
-    ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  "e"))
+    ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  ""))
+    ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  ""))
     ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  ""))
     ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
 
 (defun lemma-verb-special(word)
   (cond 
     ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
-    ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  ""))
-    ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  ""))
+    ((ppcre:scan "es$" word)(ppcre:regex-replace "es$" word  "e"))
+    ((ppcre:scan "ed$" word)(ppcre:regex-replace "ed$" word  "e"))
     ((ppcre:scan "ing$" word)(ppcre:regex-replace "ing$" word  ""))
     ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
+
+(defun delete-last-char(word)
+  (let* ((len (length word)))
+    (subseq word 0 (1- len))))
 
 (defun lemma-adj(word)
   (cond 
@@ -103,11 +107,14 @@
 (defun lemma(word &optional (pos nil))
   ;; if the pos is not specified, it is determined in order
   (if(null pos)
-     (cond((find-exc-of-pos word "adv") (find-exc-of-pos word "adv"))
-	  ((find-exc-of-pos word "noun") (find-exc-of-pos word "noun"))
-	  ((find-exc-of-pos word "verb") (find-exc-of-pos word "verb"))
-	  ((find-exc-of-pos word "adj") (find-exc-of-pos word "adj"))
-	  (t (lemma-general word)))
+     (cond
+       ((find-exc-of-pos word "noun")(find-exc-of-pos word "noun"))
+       ((find-exc-of-pos word "verb")(find-exc-of-pos word "verb"))
+       ((find-exc-of-pos word "adj")(find-exc-of-pos word "adj"))
+       ((find-exc-of-pos word "adv")(find-exc-of-pos word "adv"))
+       ((find-index-of-pos (delete-last-char word) "verb")
+	(lemma-verb-special word))
+       (t (lemma-general word)))
      ;; if the pos is specified
      (cond((string-equal pos "noun")
 	     (if (find-exc-of-pos word "noun")
@@ -117,20 +124,20 @@
 	     (if (find-exc-of-pos word "verb")
 		 (find-exc-of-pos word "verb")
 		 (if (find-index-of-pos word "verb")
-		     (lemma-verb-special word)
-		     (lemma-verb word))))
+		     (lemma-verb word)
+		     (lemma-verb-special word))))
 	  ((string-equal pos "adv")
 	     (if (find-exc-of-pos word "adv")
 		 (find-exc-of-pos word "adv")
 		 (if (find-index-of-pos word "adv")
-		     (lemma-adv-special word)
-		     (lemma-adv word))))
+		     (lemma-adv word)
+		     (lemma-adv-special word))))
 	  ((string-equal pos "adj")
 	     (if (find-exc-of-pos word "adj")
 		 (find-exc-of-pos word "adj")
 		 (if (find-index-of-pos word "adj")
-		     (lemma-adj-special word)
-		     (lemma-adj word))))
+		     (lemma-adj word)
+		     (lemma-adj-special word))))
 	  (t (lemma-general word)))))
 
 
@@ -138,5 +145,3 @@
 ;; ("blew" "one's" "nose")
 ;; (uiop:split-string "blow_one's_nose" :separator "_")
 ;; ("blow" "one's" "nose")
-
-
