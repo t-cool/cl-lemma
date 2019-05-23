@@ -2,7 +2,7 @@
   :version "0.1.0"
   :author "t-cool"
   :license "MIT"
-  :depends-on (cl-ppcre)
+  :depends-on (cl-ppcre rove)
   :components ((:module "src"
                 :components
                 ((:file "main"))))

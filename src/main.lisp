@@ -1,3 +1,5 @@
+(ql:quickload :cl-ppcre)
+
 (defpackage cl-lemma
   (:use :cl)
   (:import-from :cl-ppcre
@@ -38,7 +40,7 @@
       return t))
 
 (defun lemma-general(word)
-  (cond 
+  (cond
     ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
     ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
     ((ppcre:scan "xes$" word)(ppcre:regex-replace "xes$" word  "x"))
@@ -53,16 +55,16 @@
     ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
 
 (defun lemma-noun(word)
-    (cond
-      ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
-      ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
-      ((ppcre:scan "xes$" word)(ppcre:regex-replace "xes$" word  "x"))
-      ((ppcre:scan "zes$" word)(ppcre:regex-replace "zes$" word  "z"))
-      ((ppcre:scan "ches$" word)(ppcre:regex-replace "ches$" word  "ch"))
-      ((ppcre:scan "shes$" word)(ppcre:regex-replace "shes$" word  "sh"))
-      ((ppcre:scan "men$" word)(ppcre:regex-replace "men$" word  "man"))
-      ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
-      ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
+  (cond
+    ((ppcre:scan "ses$" word)(ppcre:regex-replace "ses$" word  "s"))
+    ((ppcre:scan "ves$" word)(ppcre:regex-replace "ves$" word  "f"))
+    ((ppcre:scan "xes$" word)(ppcre:regex-replace "xes$" word  "x"))
+    ((ppcre:scan "zes$" word)(ppcre:regex-replace "zes$" word  "z"))
+    ((ppcre:scan "ches$" word)(ppcre:regex-replace "ches$" word  "ch"))
+    ((ppcre:scan "shes$" word)(ppcre:regex-replace "shes$" word  "sh"))
+    ((ppcre:scan "men$" word)(ppcre:regex-replace "men$" word  "man"))
+    ((ppcre:scan "ies$" word)(ppcre:regex-replace "ies$" word  "y"))
+    ((ppcre:scan "s$" word)(ppcre:regex-replace "s$" word  ""))))
 
 (defun lemma-verb(word)
   (cond 
@@ -112,6 +114,7 @@
        ((find-exc-of-pos word "verb")(find-exc-of-pos word "verb"))
        ((find-exc-of-pos word "adj")(find-exc-of-pos word "adj"))
        ((find-exc-of-pos word "adv")(find-exc-of-pos word "adv"))
+       ;; if a lemma ends with e       
        ((find-index-of-pos (delete-last-char word) "verb")
 	(lemma-verb-special word))
        (t (lemma-general word)))
@@ -119,13 +122,15 @@
      (cond((string-equal pos "noun")
 	     (if (find-exc-of-pos word "noun")
 		 (find-exc-of-pos word "noun")
-		 (lemma-noun word)))
+		 (if (find-index-of-pos (delete-last-char word) "noun")
+		     (lemma-noun word)
+		     (lemma-noun word))))
 	  ((string-equal pos "verb")
 	     (if (find-exc-of-pos word "verb")
 		 (find-exc-of-pos word "verb")
-		 (if (find-index-of-pos word "verb")
-		     (lemma-verb word)
-		     (lemma-verb-special word))))
+		 (if (find-index-of-pos (delete-last-char word) "verb")
+		     (lemma-verb-special word)
+		     (lemma-verb word))))
 	  ((string-equal pos "adv")
 	     (if (find-exc-of-pos word "adv")
 		 (find-exc-of-pos word "adv")
