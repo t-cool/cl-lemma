@@ -14,7 +14,10 @@
   (testing "verb"
 	   (ok (equal (cl-lemma:lemma "leaves" :verb) "leave"))
 	   (ok (equal (cl-lemma:lemma "went" :verb) "go"))
-	   (ok (equal (cl-lemma:lemma "abbreviated" :verb) "abbreviate"))  	   )
+	   (ok (equal (cl-lemma:lemma "abbreviated" :verb) "abbreviate"))
+	   (ok (equal (cl-lemma:lemma "arisen" :verb) "arise"))
+	   (ok (equal (cl-lemma:lemma "bound" :verb) "bind"))	   
+	   )
   (testing "adjective"
 	   (ok (equal (cl-lemma:lemma "better" :adj) "good"))
 	   )

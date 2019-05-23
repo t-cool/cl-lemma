@@ -37,7 +37,7 @@
   `(loop
       for pair in ,(intern (concatenate 'string "*index-" pos "*"))
       if (string-equal ,word (car pair))
-      return t))
+      return (car pair)))
 
 (defun lemma-general(word)
   (cond
@@ -105,8 +105,8 @@
   (cond 
     ((ppcre:scan "er$" word)(ppcre:regex-replace "er$" word  "e"))
     ((ppcre:scan "est$" word)(ppcre:regex-replace "est$" word  "e"))))
-
-(defun lemma(word &optional (pos nil))
+  
+(defun pre-lemma(word &optional (pos nil))
   ;; if the pos is not specified, it is determined in order
   (if(null pos)
      (cond
@@ -117,36 +117,40 @@
        ;; if a lemma ends with e       
        ((find-index-of-pos (delete-last-char word) "verb")
 	(lemma-verb-special word))
-       (t (lemma-general word)))
+       ((lemma-general word)(lemma-general word))
+       (t word))
      ;; if the pos is specified
-     (cond((string-equal pos "noun")
+     (cond
+	  ((string-equal pos "noun")
 	     (if (find-exc-of-pos word "noun")
 		 (find-exc-of-pos word "noun")
 		 (if (find-index-of-pos (delete-last-char word) "noun")
 		     (lemma-noun word)
 		     (lemma-noun word))))
 	  ((string-equal pos "verb")
-	     (if (find-exc-of-pos word "verb")
-		 (find-exc-of-pos word "verb")
-		 (if (find-index-of-pos (delete-last-char word) "verb")
-		     (lemma-verb-special word)
-		     (lemma-verb word))))
+	   (if (find-exc-of-pos word "verb")
+	       (find-exc-of-pos word "verb")
+	       (if (find-index-of-pos (delete-last-char word) "verb")
+		   (lemma-verb-special word)
+		   (lemma-verb word))))
 	  ((string-equal pos "adv")
 	     (if (find-exc-of-pos word "adv")
-		 (find-exc-of-pos word "adv")
-		 (if (find-index-of-pos word "adv")
+	  	 (find-exc-of-pos word "adv")
+	  	 (if (find-index-of-pos word "adv")
 		     (lemma-adv word)
-		     (lemma-adv-special word))))
+	  	     (if (lemma-adv-special word)
+	  		 (lemma-adv-special word)
+	  		 word))))
 	  ((string-equal pos "adj")
 	     (if (find-exc-of-pos word "adj")
 		 (find-exc-of-pos word "adj")
 		 (if (find-index-of-pos word "adj")
 		     (lemma-adj word)
 		     (lemma-adj-special word))))
-	  (t (lemma-general word)))))
+	  ((lemma-general word)(lemma-general word))
+	  (t word))))
 
-
-;; (uiop:split-string "blew_one's_nose" :separator "_")
-;; ("blew" "one's" "nose")
-;; (uiop:split-string "blow_one's_nose" :separator "_")
-;; ("blow" "one's" "nose")
+(defun lemma (word &optional (pos nil))
+  (if (pre-lemma word pos)
+      (pre-lemma word pos)
+      word))
