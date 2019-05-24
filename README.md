@@ -1,6 +1,6 @@
 # cl-lemma
 
-Englsh lemmatizer in Common Lisp
+English lemmatizer in Common Lisp
 
 ## Installation
 
@@ -10,21 +10,22 @@ $ ros install t-cool/cl-lemma
 
 ## Usage
 
-You can lemmalize a word by `(cl-lemma:lemma "word")`.
-
-```  
-* (ql:quickload :cl-lemma)
-* (cl-lemma:lemma "went")
-"go"
-```
-
-You can get the exact result by specifying its pos(part of speech) at the end.
+You can lemmalize a word by `(cl-lemma:lemma <word> <pos> )`.
 
 ```
 * (cl-lemma:lemma "leaves" :noun)
 "leaf"
 * (cl-lemma:lemma "leaves" :verb)
 "leave"
+```
+
+If you ommit a pos, cl-lemma will look up a lemma in the following order: Noun, Verb, Adjective, and Adverb.
+
+```  
+* (cl-lemma:lemma "leaves")
+"leaf"
+* (cl-lemma:lemma "better")
+"good"
 ```
 
 ### Roswell Script
@@ -34,12 +35,8 @@ If you add `~/.roswell/bin` to PATH, you can use lemma command.
 ```
 $ lemma leaves verb
 leave
-$ lemma leaves noun
+$ lemma leave
 leaf
-$ lemma best adj
-good
-$ lemma best adv
-well
 ```
 
 ## Author
